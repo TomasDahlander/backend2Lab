@@ -1,12 +1,8 @@
 package com.example.backend2lab.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Tomas Dahlander <br>
@@ -14,14 +10,14 @@ import javax.persistence.Id;
  * Time: 14:36 <br>
  * Project: backend2Lab <br>
  */
-@Setter
-@Getter
+@Data
+@RequiredArgsConstructor
 @Entity
 public class Account {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -30,18 +26,16 @@ public class Account {
     @Column(name = "balance")
     private double balance;
 
-    public Account(){}
+//    public Account(){}
 
-    public Account(String username){
-        this.username = username;
-    }
-
-    public Account(String username, double balance) {
-        this.username = username;
-        this.balance = balance;
-    }
-
-
+//    public Account(String username){
+//        this.username = username;
+//    }
+//
+//    public Account(String username, double balance) {
+//        this.username = username;
+//        this.balance = balance;
+//    }
 }
 
 //    @Id

@@ -1,7 +1,7 @@
 package com.example.backend2lab.persistance;
 
 import com.example.backend2lab.domain.model.Account;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * Project: backend2Lab <br>
  */
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends CrudRepository<Account, Long> {
 
-    Account findByName(String name);
+    Account findByUsername(String name);
 }

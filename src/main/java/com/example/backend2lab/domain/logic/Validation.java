@@ -3,7 +3,6 @@ package com.example.backend2lab.domain.logic;
 import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
 
-
 /**
  * Created by Tomas Dahlander <br>
  * Date: 2021-08-24 <br>
@@ -18,7 +17,9 @@ public class Validation {
     }
 
     public Message createAccount(Account account) {
-        if(account == null) return new Message("OK",true,account);
+        if(account == null) {
+            return new Message("OK",true);
+        }
         else return new Message("Already exists in database",false);
     }
 }
