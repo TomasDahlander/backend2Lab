@@ -2,8 +2,7 @@ package com.example.backend2lab.domain.logic;
 
 import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
-import com.example.backend2lab.persistance.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  * Created by Tomas Dahlander <br>
@@ -13,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Validation {
 
-    @Autowired
-    AccountRepository repository;
-
-    public Message login(String name){
-        Account account = repository.findByName(name);
+    public Message login(Account account){
         if(account == null) return new Message("Person doesn't exists in database",false);
         else return new Message("Logged in", true, account);
     }
 
+    public Message createAccount(Account account) {
+        if(account == null) return new Message("OK",true,account);
+        else return new Message("Already exists in database",false);
+    }
 }

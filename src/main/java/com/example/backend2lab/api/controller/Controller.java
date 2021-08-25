@@ -20,28 +20,36 @@ public class Controller {
     public Message login(@PathVariable String name){
         if(name == null) return new Message("Name cant be null!",false);
 
-        // -->
+        AccountDTO dto = new AccountDTO(name);
 
-        return new Message();
+        return service.login(dto);
     }
 
     @GetMapping("/openAccount")
     public Message openAccount(@PathVariable String name){
+        if(name == null) return new Message("Name cant be null!",false);
 
-        return new Message();
+        AccountDTO dto = new AccountDTO(name);
+
+        return service.createNewAccount(dto);
     }
 
     @GetMapping("/deposit")
-    public Message deposit(@PathVariable String name, @PathVariable double sum, @PathVariable String type){
-        AccountDTO t = new AccountDTO(name, sum, type);
+    public Message deposit(@PathVariable String name, @PathVariable double sum){
+        if(sum <= 0) return new Message("Sum cant be zero or below",false);
 
-        return new Message();
+        AccountDTO dto = new AccountDTO(name, sum);
+
+        return service.deposit(dto);
     }
 
     @GetMapping("/withdraw")
-    public Message withdraw(){
+    public Message withdraw(@PathVariable String name, @PathVariable double sum){
+        if(sum <= 0) return new Message("Sum cant be zero or below",false);
 
-        return new Message();
+        AccountDTO dto = new AccountDTO(name, sum);
+
+        return service.withdraw(dto);
     }
 
 //    @GetMapping("/bank/{userId}/account")

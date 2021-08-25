@@ -8,16 +8,24 @@ package com.example.backend2lab.api.model;
  */
 public class AccountDTO {
 
-    public AccountDTO(String name, double sum, String type) {
-        this.name = name;
-        this.sum = sum;
-        this.type = type;
-    }
-
     private String name;
 
     private double sum;
 
-    private String type;
+    public AccountDTO(String name) {
+        this.name = name;
+    }
 
+    public AccountDTO(String name, double sum) {
+        this.name = name;
+        this.sum = sum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSum() {
+        return sum;
+    }
 }
