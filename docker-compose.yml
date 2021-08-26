@@ -11,7 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: bank
     ports:
-      - 3306:3306
+      - 3309:3306
 
   java-app:
     container_name: bank-app
