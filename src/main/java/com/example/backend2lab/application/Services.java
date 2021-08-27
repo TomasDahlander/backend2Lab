@@ -45,7 +45,6 @@ public class Services {
             account.setUsername(dto.getName());
             account.setBalance(0);
             message.setAccount(account);
-            System.out.println(account);
             repository.save(account);
         }
         return message;
