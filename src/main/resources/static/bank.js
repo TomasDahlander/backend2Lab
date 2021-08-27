@@ -1,0 +1,51 @@
+let account;
+
+document.addEventListener("DOMContentLoaded", function () {
+    account = JSON.parse(localStorage.getItem("account"));
+
+    document.getElementById("accountName").innerHTML = account.username;
+    console.log(account);
+    document.getElementById("accountBalance").innerHTML = account.balance;
+});
+
+function deposit() {
+    clearError();
+    const amount = document.getElementById("amount");
+    const sum = Number(amount.value);
+
+    fetch(`http://localhost:8080/bank/deposit/${account.username}/${sum}`)
+        .then((response) => response.json())
+        .then(function (data) {
+            if (data.status) {
+                document.getElementById("accountBalance").innerHTML = data.account.balance;
+            } else {
+                document.getElementById("errorMessageBank").innerHTML = data.message;
+            }
+        });
+}
+
+function withdraw() {
+    clearError();
+    const amount = document.getElementById("amount");
+    const sum = Number(amount.value);
+
+    fetch(`http://localhost:8080/bank/withdraw/${account.username}/${sum}`)
+        .then((response) => response.json())
+        .then(function (data) {
+            console.log(data);
+            if (data.status) {
+                document.getElementById("accountBalance").innerHTML = data.account.balance;
+            } else {
+                document.getElementById("errorMessageBank").innerHTML = data.message;
+            }
+        });
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.replace("/index.html");
+}
+
+function clearError() {
+    document.getElementById("errorMessageBank").innerHTML = "";
+}

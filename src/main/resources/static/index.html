@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bank Login</title>
+    </head>
+    <body>
+        <div>
+            <!-- Headline starts -->
+            <div>
+                <div>
+                    <h1>Login</h1>
+                </div>
+            </div>
+            <!-- Headline ends -->
+
+            <!-- Login starts  -->
+            <div class="row">
+                <div>
+                    <label for="loginName">Name:</label><br />
+                    <input id="loginName" type="text" maxlength="50" placeholder="Your name..." />
+                </div>
+                <br />
+                <div>
+                    <button onclick="login()" style="width: 125px">Login</button>
+                </div>
+            </div>
+            <!-- Login ends -->
+
+            <!-- Error message display starts -->
+            <div>
+                <div>
+                    <p id="errorMessageLogin" style="color: red"></p>
+                </div>
+            </div>
+            <!-- Error message display ends -->
+
+            <!-- Headline starts -->
+            <div>
+                <div>
+                    <h1>Create new account</h1>
+                </div>
+            </div>
+            <!-- Headline ends -->
+
+            <!-- Login starts  -->
+            <div>
+                <div>
+                    <label for="createName">Name:</label><br />
+                    <input id="createName" type="text" maxlength="50" placeholder="Your name..." />
+                </div>
+                <br />
+                <div>
+                    <button onclick="creatingNewAccount()" style="width: 125px">
+                        Create account
+                    </button>
+                </div>
+            </div>
+            <!-- Login ends -->
+
+            <!-- Error message display starts -->
+            <div>
+                <div>
+                    <p id="errorMessageCreate" style="color: red"></p>
+                </div>
+            </div>
+            <!-- Error message display ends -->
+        </div>
+
+        <script src="/login.js"></script>
+    </body>
+</html>

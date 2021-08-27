@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bank</title>
+    </head>
+    <body>
+        <div>
+            <!-- Headline starts -->
+            <div>
+                <div>
+                    <h1>BANK</h1>
+                    <h3>Välkommen <span id="accountName">kundens namn...</span></h3>
+                    <h4>Ditt saldo: <span id="accountBalance">Här ska saldo stå</span></h4>
+                </div>
+            </div>
+            <!-- Headline ends -->
+
+            <!-- Amount starts  -->
+            <div>
+                <div>
+                    <label for="amount">Amount:</label><br />
+                    <input id="amount" type="number" maxlength="50" placeholder="Amount..." />
+                </div>
+                <br />
+                <div>
+                    <button onclick="deposit()" id="deposit" style="width: 86px">Deposit</button>
+                    <button onclick="withdraw()" id="withdraw" style="width: 86px">Withdraw</button>
+                    <br /><br />
+                    <button onclick="logout()" id="logout" style="width: 175px">Logout</button>
+                </div>
+            </div>
+            <!-- Amount ends -->
+
+            <!-- Error message display starts -->
+            <div class="row text-center">
+                <div class="col-12">
+                    <p id="errorMessageBank" style="color: red"></p>
+                </div>
+            </div>
+            <!-- Error message display ends -->
+        </div>
+
+        <script src="bank.js"></script>
+    </body>
+</html>
