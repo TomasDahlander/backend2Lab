@@ -42,10 +42,6 @@ class ControllerTest {
     MockMvc mockMvc;
 
     @Test
-    void contextLoads() {
-    }
-
-    @Test
     public void loginTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/bank/login/Kalle"))
                 .andExpect(status().is2xxSuccessful());
