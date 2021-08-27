@@ -74,7 +74,7 @@ class ControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/bank/withdraw/Kalle/100"))
                 .andExpect(status().is(200));
         mockMvc.perform(MockMvcRequestBuilders.get("/bank/with/Kalle/100"))
-                .andExpect(status().is(404)
+                .andExpect(status().is(404));
     }
 
     public static class Lab1ApplicationTestsContextInitializer
