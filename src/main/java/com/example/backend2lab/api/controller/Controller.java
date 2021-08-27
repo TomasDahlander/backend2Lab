@@ -5,6 +5,8 @@ import com.example.backend2lab.api.model.AccountDTO;
 import com.example.backend2lab.application.Services;
 import com.example.backend2lab.domain.model.Account;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,23 +23,18 @@ public class Controller {
 
     private final Services service;
 
-//    @GetMapping("/delete/{id}")
+    private static final Logger log =
+            LoggerFactory.getLogger(Controller.class);
 
     @GetMapping("/")
     public Message root(){
         return new Message("Test",true);
     }
 
-    @GetMapping("/test")
-    public String test(){
-        Iterable<Account> list = service.findAllTest();
-        return list.toString();
-    }
-
     @GetMapping("/login/{name}")
     public Message login(@PathVariable String name){
         if(name == null) {
-            System.out.println("namn var null");
+            log.warn("Someone tried to login without a name.");
             return new Message("Name cant be null!",false);
         }
         AccountDTO dto = new AccountDTO(name);
@@ -46,7 +43,10 @@ public class Controller {
 
     @GetMapping("/openAccount/{name}")
     public Message openAccount(@PathVariable String name){
-        if(name == null) return new Message("Name cant be null!",false);
+        if(name == null) {
+            log.warn("Someone tried to open account without a name.");
+            return new Message("Name cant be null!",false);
+        }
 
         AccountDTO dto = new AccountDTO(name);
 
@@ -55,7 +55,10 @@ public class Controller {
 
     @GetMapping("/deposit/{name}/{sum}")
     public Message deposit(@PathVariable String name, @PathVariable double sum){
-        if(sum <= 0) return new Message("Sum cant be zero or below",false);
+        if(sum <= 0) {
+            log.warn("Someone tried to deposit zero or less money.");
+            return new Message("Sum cant be zero or below",false);
+        }
 
         AccountDTO dto = new AccountDTO(name, sum);
 
@@ -64,23 +67,14 @@ public class Controller {
 
     @GetMapping("/withdraw/{name}/{sum}")
     public Message withdraw(@PathVariable String name, @PathVariable double sum){
-        if(sum <= 0) return new Message("Sum cant be zero or below",false);
+        if(sum <= 0) {
+            log.warn("Someone tried to withdraw more than they had in bank account.");
+            return new Message("Sum cant be zero or below",false);
+        }
 
         AccountDTO dto = new AccountDTO(name, sum);
 
         return service.withdraw(dto);
     }
-
-//    @GetMapping("/bank/{userId}/account")
-//    public String openAccount(@PathVariable("userId") String userId) {
-//        return "redirect:/bank/unknown/account/1";
-//    }
-//
-//    @GetMapping("/bank/{userId}/account/{accountId}")
-//    public String bankForm(@PathVariable("userId") String userId, @PathVariable("accountId") Long accountId, Model model) {
-//        model.addAttribute("userId", userId);
-//        model.addAttribute("accountId", accountId);
-//        return "bank";
-//    }
 
 }

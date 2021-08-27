@@ -27,29 +27,5 @@ public class Account {
     @Column(name = "balance")
     private double balance;
 
-//    public Account(){}
-
-//    public Account(String username){
-//        this.username = username;
-//    }
-//
-//    public Account(String username, double balance) {
-//        this.username = username;
-//        this.balance = balance;
-//    }
 }
 
-//    @Id
-//    @Column(name = "id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private long id;
-//
-//    @Column(name = "balance")
-//    private long balance;
-//
-//    @Column(name = "holder")
-//    private String holder;
-//
-//    public Account() {
-//        //For hibernate
-//    }
