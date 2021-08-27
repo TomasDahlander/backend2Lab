@@ -12,6 +12,7 @@ import javax.persistence.*;
  */
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Account {
 
