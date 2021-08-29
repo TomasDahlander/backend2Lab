@@ -66,6 +66,12 @@ public class Services {
         return message;
     }
 
+    private boolean checkIfCreditIsOk(String name){
+
+
+        return true;
+    }
+
     public Iterable<Account> findAllTest() {
         return repository.findAll();
     }
