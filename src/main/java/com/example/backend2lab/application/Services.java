@@ -2,12 +2,17 @@ package com.example.backend2lab.application;
 
 import com.example.backend2lab.api.model.AccountDTO;
 import com.example.backend2lab.api.model.Message;
+import com.example.backend2lab.api.model.RiskAssessment;
 import com.example.backend2lab.domain.logic.AccountTransaction;
 import com.example.backend2lab.domain.logic.Validation;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 /**
  * Created by Tomas Dahlander <br>
@@ -66,11 +71,23 @@ public class Services {
         return message;
     }
 
-    private boolean checkIfCreditIsOk(String name){
+    public boolean checkIfCreditIsOk(String name){
+        RestTemplate restTemplate = new RestTemplate();
+//        ObjectMapper objectMapper = new ObjectMapper();
+        String url = "http://localhost:8080/risk/"+name;
 
+        return restTemplate.getForEntity(url,RiskAssessment.class)
+                .getBody().isPass();
 
-        return true;
     }
+
+//    public List<Anforande> fetchAnforanden() {
+//        return restTemplate.getForEntity(baseUrl + path, AnforandeResponseDto.class)
+//                .getBody().getAnforandeLista().getAnforande()
+//                .stream()
+//                .map(dto -> new Anforande(dto.getDokId()))
+//                .collect(Collectors.toList());
+//    }
 
     public Iterable<Account> findAllTest() {
         return repository.findAll();

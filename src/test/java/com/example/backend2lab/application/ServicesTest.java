@@ -89,4 +89,10 @@ class ServicesTest {
         verify(accountRepository).save(any());
         verify(accountRepository,times(2)).findByUsername(anyString());
     }
+
+    @Test
+    void checkIfCreditIsOkTest(){
+        assertTrue(service.checkIfCreditIsOk("Karl"));
+        assertFalse(service.checkIfCreditIsOk("Kalle"));
+    }
 }
