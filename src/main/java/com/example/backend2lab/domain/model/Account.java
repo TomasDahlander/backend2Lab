@@ -27,5 +27,9 @@ public class Account {
     @Column(name = "balance")
     private double balance;
 
+    public Account(String username, double balance) {
+        this.username = username;
+        this.balance = balance;
+    }
 }
 

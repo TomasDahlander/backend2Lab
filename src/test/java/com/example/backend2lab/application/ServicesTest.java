@@ -92,6 +92,12 @@ class ServicesTest {
 
     @Test
     void checkIfCreditIsOkTest(){
+        String karl = "Karl";
+        String kalle = "Kalle";
+
+        assertEquals(karl.hashCode()%2,0);
+        assertEquals(kalle.hashCode()%2,1);
+
         assertTrue(service.checkIfCreditIsOk("Karl"));
         assertFalse(service.checkIfCreditIsOk("Kalle"));
     }
