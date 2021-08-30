@@ -41,8 +41,8 @@ public class Services {
     }
 
     @Transactional
-    public Message createNewAccount(AccountDTO dto) {
-        boolean passed = checkIfCreditIsOk(dto.getName(),false);
+    public Message createNewAccount(AccountDTO dto,boolean test) {
+        boolean passed = checkIfCreditIsOk(dto.getName(),test);
         if(!passed) return new Message("Credit check not passed!",false);
 
         Account account = repository.findByUsername(dto.getName());
