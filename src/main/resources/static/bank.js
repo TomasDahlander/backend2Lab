@@ -35,7 +35,7 @@ function sendInformation(url) {
 
 function logout() {
     localStorage.clear();
-    window.location.replace("/login.html");
+    window.location.replace("/index.html");
 }
 
 function clearError() {
