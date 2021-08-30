@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
-
 /**
  * Created by Tomas Dahlander <br>
  * Date: 2021-08-24 <br>
