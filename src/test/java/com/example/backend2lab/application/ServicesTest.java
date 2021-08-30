@@ -4,6 +4,7 @@ import com.example.backend2lab.api.model.AccountDTO;
 import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,7 +99,7 @@ class ServicesTest {
         assertEquals(karl.hashCode()%2,0);
         assertEquals(kalle.hashCode()%2,1);
 
-        assertTrue(service.checkIfCreditIsOk("Karl"));
-        assertFalse(service.checkIfCreditIsOk("Kalle"));
+        assertTrue(service.checkIfCreditIsOk("Karl",true));
+        assertFalse(service.checkIfCreditIsOk("Kalle",true));
     }
 }

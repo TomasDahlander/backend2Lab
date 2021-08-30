@@ -7,6 +7,7 @@ import com.example.backend2lab.domain.logic.AccountTransaction;
 import com.example.backend2lab.domain.logic.Validation;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +20,9 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class Services {
+
+    @Value("${api_url}")
+    private String riskUrl;
 
     private final Validation validation = new Validation();
 
@@ -38,7 +42,7 @@ public class Services {
 
     @Transactional
     public Message createNewAccount(AccountDTO dto) {
-        boolean passed = checkIfCreditIsOk(dto.getName());
+        boolean passed = checkIfCreditIsOk(dto.getName(),false);
         if(!passed) return new Message("Credit check not passed!",false);
 
         Account account = repository.findByUsername(dto.getName());
@@ -69,9 +73,10 @@ public class Services {
         return message;
     }
 
-    public boolean checkIfCreditIsOk(String name){
+    public boolean checkIfCreditIsOk(String name, boolean test){
+        if(test) riskUrl = "localhost:8082";
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8082/risk/"+name;
+        String url = "http://"+riskUrl+"/risk/"+name;
 
         return restTemplate.getForEntity(url,RiskAssessment.class)
                 .getBody().isPass();

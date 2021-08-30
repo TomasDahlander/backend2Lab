@@ -1,7 +1,6 @@
 let account;
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log(JSON.parse(localStorage.getItem("account")));
     account = JSON.parse(localStorage.getItem("account"));
 
     document.getElementById("accountName").innerHTML = account.username;

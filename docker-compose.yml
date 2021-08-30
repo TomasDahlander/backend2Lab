@@ -11,7 +11,7 @@ services:
   mysql:
     container_name: mysql-bank
     image: mysql:latest
-    hostname: mysql
+#    hostname: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -26,5 +26,6 @@ services:
       - 8080:8080
     environment:
       MYSQL_HOST: mysql
+      RISK: risk-assessment:8080
     depends_on:
       - mysql
