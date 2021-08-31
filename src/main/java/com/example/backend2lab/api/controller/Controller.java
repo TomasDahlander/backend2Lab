@@ -50,7 +50,7 @@ public class Controller {
 
         AccountDTO dto = new AccountDTO(name);
 
-        return service.createNewAccount(dto,false);
+        return service.createNewAccount(dto);
     }
 
     @GetMapping("/deposit/{name}/{sum}")

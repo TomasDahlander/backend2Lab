@@ -46,8 +46,8 @@ class ServicesTest {
         when(accountRepository.findByUsername("Karl")).thenReturn(new Account(1L,"Karl",100));
         when(accountRepository.findByUsername("Andy")).thenReturn(null);
 
-        Message message = service.createNewAccount(new AccountDTO("Karl",0),true);
-        Message messageNull = service.createNewAccount(new AccountDTO("Andy",0),true);
+        Message message = service.createNewAccount(new AccountDTO("Karl",0));
+        Message messageNull = service.createNewAccount(new AccountDTO("Andy",0));
 
         assertEquals(message.getMessage(),"Already exists in database");
         assertFalse(message.isStatus());
@@ -99,7 +99,7 @@ class ServicesTest {
         assertEquals(karl.hashCode()%2,0);
         assertEquals(kalle.hashCode()%2,1);
 
-        assertTrue(service.checkIfCreditIsOk("Karl",true));
-        assertFalse(service.checkIfCreditIsOk("Kalle",true));
+        assertTrue(service.checkIfCreditIsOk("Karl"));
+        assertFalse(service.checkIfCreditIsOk("Kalle"));
     }
 }
