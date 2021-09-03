@@ -4,12 +4,19 @@ import com.example.backend2lab.api.model.AccountDTO;
 import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
-import org.junit.Ignore;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import org.apache.http.HttpStatus;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.testcontainers.shaded.com.github.dockerjava.core.MediaType.APPLICATION_JSON;
+
 
 /**
  * Created by Tomas Dahlander <br>
@@ -21,6 +28,18 @@ class ServicesTest {
 
     AccountRepository accountRepository = mock(AccountRepository.class);
     Services service = new Services(accountRepository);
+
+    private WireMockServer wireMockServer;
+
+    @BeforeEach
+    public void before(){
+        wireMockServer.start();
+    }
+
+    @AfterEach
+    public void after(){
+        wireMockServer.stop();
+    }
 
     @Test
     void loginTest() {
@@ -93,13 +112,20 @@ class ServicesTest {
 
     @Test
     void checkIfCreditIsOkTest(){
-        String karl = "Karl";
-        String kalle = "Kalle";
+//        String karl = "Karl";
+//        String kalle = "Kalle";
+//
+//        assertEquals(karl.hashCode()%2,0);
+//        assertEquals(kalle.hashCode()%2,1);
+//
+//        assertTrue(service.checkIfCreditIsOk("Karl"));
+//        assertFalse(service.checkIfCreditIsOk("Kalle"));
 
-        assertEquals(karl.hashCode()%2,0);
-        assertEquals(kalle.hashCode()%2,1);
+        // Med wiremock
+//        wireMockServer.stubFor(get(urlEqualTo("/localhost:8082/risk/Bengt")).willReturn(aResponse()
+//                .withStatus(HttpStatus.SC_OK))
+//                .withHeader("content-type", APPLICATION_JSON.toString())
+//                .withBody("{\"pass\": true}"));
 
-        assertTrue(service.checkIfCreditIsOk("Karl"));
-        assertFalse(service.checkIfCreditIsOk("Kalle"));
     }
 }
