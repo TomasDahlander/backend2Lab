@@ -9,11 +9,16 @@ package com.example.backend2lab.api.model;
 public class AccountDTO {
 
     private String name;
-
+    private String password;
     private double sum;
 
     public AccountDTO(String name) {
         this.name = name;
+    }
+
+    public AccountDTO(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public AccountDTO(String name, double sum) {
@@ -23,6 +28,10 @@ public class AccountDTO {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public double getSum() {
