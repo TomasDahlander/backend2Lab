@@ -18,7 +18,7 @@ class ValidationTest {
 
     @Test
     public void loginTest(){
-        Account account = new Account(1L,"Kalle",0);
+        Account account = new Account(1L,"Kalle", "password",0);
         Account accountNull = null;
 
         Message m1 = v.login(account);
@@ -30,7 +30,7 @@ class ValidationTest {
 
     @Test
     public void createAccountTest(){
-        Account account = new Account(1L,"Kalle",0);
+        Account account = new Account(1L,"Kalle", "password",0);
         Account accountNull = null;
 
         Message m1 = v.createAccount(account);

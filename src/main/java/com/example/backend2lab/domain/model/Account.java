@@ -38,6 +38,12 @@ public class Account implements UserDetails {
         this.balance = balance;
     }
 
+    public Account(String username, String password, double balance) {
+        this.username = username;
+        this.password = password;
+        this.balance = balance;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

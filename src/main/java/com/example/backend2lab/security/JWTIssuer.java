@@ -1,13 +1,16 @@
 package com.example.backend2lab.security;
 
 import com.example.backend2lab.domain.model.Account;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Date;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -37,4 +40,12 @@ public class JWTIssuer {
                 .setExpiration(Date.from(Instant.now().plus(validity)))
                 .compact();
     }
+
+//    public Account validate(String token) {
+//        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+//
+//        String authorities = (String) claims.get("authorities");
+//        List<String> roles = Arrays.stream(authorities.split(",")).map(r -> r.substring(5)).collect(Collectors.toList());
+//        return new Account(claims.getSubject(), null, roles);
+//    }
 }

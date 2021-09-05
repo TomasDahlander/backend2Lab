@@ -7,7 +7,11 @@ import com.example.backend2lab.domain.logic.AccountTransaction;
 import com.example.backend2lab.domain.logic.Validation;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +23,8 @@ import org.springframework.web.client.RestTemplate;
  * Project: backend2Lab <br>
  */
 @Service
-public class Services {
+@Slf4j
+public class Services implements UserDetailsService {
 
     @Value("${api_url}")
     private String riskUrl;
@@ -41,6 +46,12 @@ public class Services {
     }
 
     @Transactional
+    public Message loginWithPassword(AccountDTO accountDTO) {
+        Account account = repository.findByUsername(accountDTO.getName());
+        return validation.login(account);
+    }
+
+    @Transactional
     public Message createNewAccount(AccountDTO dto) {
         boolean passed = checkIfCreditIsOk(dto.getName());
         if(!passed) return new Message("Credit check not passed!",false);
@@ -51,6 +62,25 @@ public class Services {
 
         if(message.isStatus()){
             account = new Account(dto.getName(),0);
+            message.setAccount(account);
+            repository.save(account);
+        }
+        return message;
+    }
+
+    @Transactional
+    public Message createNewAccountWithPassword(final String name, final String password) {
+        AccountDTO accountDTO = new AccountDTO(name, password);
+        boolean passed = checkIfCreditIsOk(accountDTO.getName());
+        if (!passed) {
+            return new Message("Credit check not passed!",false);
+        }
+
+        Account account = repository.findByUsername(accountDTO.getName());
+        Message message = validation.createAccount(account);
+
+        if (message.isStatus()) {
+            account = new Account(accountDTO.getName(), accountDTO.getPassword(), 0);
             message.setAccount(account);
             repository.save(account);
         }
@@ -80,5 +110,10 @@ public class Services {
 
         return restTemplate.getForEntity(url,RiskAssessment.class)
                 .getBody().isPass();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }

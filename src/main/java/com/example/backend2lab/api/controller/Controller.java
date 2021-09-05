@@ -7,6 +7,7 @@ import com.example.backend2lab.domain.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class Controller {
 
     private final Services service;
+    private final PasswordEncoder passwordEncoder;
 
     private static final Logger log =
             LoggerFactory.getLogger(Controller.class);
@@ -41,6 +43,12 @@ public class Controller {
         return service.login(dto);
     }
 
+    @PostMapping("/login")
+    public Message loginWithPassword(@RequestBody AccountDTO accountDTO) {
+//        AccountDTO accountDTO = new AccountDTO(name, password);
+        return service.loginWithPassword(accountDTO);
+    }
+
     @GetMapping("/openAccount/{name}")
     public Message openAccount(@PathVariable String name){
         if(name == null) {
@@ -51,6 +59,12 @@ public class Controller {
         AccountDTO dto = new AccountDTO(name);
 
         return service.createNewAccount(dto);
+    }
+
+    @PostMapping("/createAccount")
+    public Message createAccount(@RequestBody AccountDTO accountDTO) {
+//        AccountDTO accountDTO = new AccountDTO(name, password);
+        return service.createNewAccountWithPassword(accountDTO.getName(), passwordEncoder.encode(accountDTO.getPassword()));
     }
 
     @GetMapping("/deposit/{name}/{sum}")

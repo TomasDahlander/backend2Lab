@@ -1,12 +1,10 @@
-package com.example.backend2lab.filter;
+package com.example.backend2lab.security;
 
 import com.example.backend2lab.domain.model.Account;
-import com.example.backend2lab.security.JWTIssuer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,8 +31,10 @@ public class LoginAuthorizationFilter extends UsernamePasswordAuthenticationFilt
     private JWTIssuer jwtIssuer;
     private ObjectMapper objectMapper;
 
-    public LoginAuthorizationFilter(AuthenticationManager authenticationManager) {
+    public LoginAuthorizationFilter(final AuthenticationManager authenticationManager, final JWTIssuer jwtIssuer, final ObjectMapper objectMapper) {
         this.authenticationManager = authenticationManager;
+        this.jwtIssuer = jwtIssuer;
+        this.objectMapper = objectMapper;
     }
 
     private Optional<Account> getPrincipal(HttpServletRequest req) {
@@ -64,6 +64,7 @@ public class LoginAuthorizationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
 //        super.successfulAuthentication(request, response, chain, authResult);
+//        User user = (User)auth.getPrincipal();
         Account account = (Account)auth.getPrincipal();
         response.getWriter().write(jwtIssuer.generateToken(account));
     }

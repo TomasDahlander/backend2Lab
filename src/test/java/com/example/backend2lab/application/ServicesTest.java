@@ -24,7 +24,7 @@ class ServicesTest {
 
     @Test
     void loginTest() {
-        when(accountRepository.findByUsername("Kalle")).thenReturn(new Account(1L,"Kalle",100));
+        when(accountRepository.findByUsername("Kalle")).thenReturn(new Account(1L,"Kalle", "password",100));
         when(accountRepository.findByUsername("Andy")).thenReturn(null);
 
         Message m1 = service.login(new AccountDTO("Kalle",0));
@@ -43,7 +43,7 @@ class ServicesTest {
 
     @Test
     void createNewAccountTest() {
-        when(accountRepository.findByUsername("Karl")).thenReturn(new Account(1L,"Karl",100));
+        when(accountRepository.findByUsername("Karl")).thenReturn(new Account(1L,"Karl", "password",100));
         when(accountRepository.findByUsername("Andy")).thenReturn(null);
 
         Message message = service.createNewAccount(new AccountDTO("Karl",0));
@@ -61,9 +61,9 @@ class ServicesTest {
 
     @Test
     void depositTest() {
-        Account account = new Account(1L,"Kalle",0);
+        Account account = new Account(1L,"Kalle", "password",0);
         when(accountRepository.findByUsername("Kalle")).thenReturn(account);
-        when(accountRepository.save(new Account(1L,"Kalle",100))).thenReturn(new Account(1L,"Kalle",100));
+        when(accountRepository.save(new Account(1L,"Kalle", "password",100))).thenReturn(new Account(1L,"Kalle", "password",100));
         Message message = service.deposit(new AccountDTO("Kalle",100));
 
         assertEquals(message.getMessage(),"OK");
@@ -75,10 +75,10 @@ class ServicesTest {
 
     @Test
     void withdrawTest() {
-        when(accountRepository.findByUsername("Kalle")).thenReturn(new Account(1L,"Kalle",100));
+        when(accountRepository.findByUsername("Kalle")).thenReturn(new Account(1L,"Kalle", "password",100));
         Message m1 = service.withdraw(new AccountDTO("Kalle",100));
 
-        when(accountRepository.findByUsername("Andy")).thenReturn(new Account(2L,"Andy",100));
+        when(accountRepository.findByUsername("Andy")).thenReturn(new Account(2L,"Andy", "password",100));
         Message m2 = service.withdraw(new AccountDTO("Andy",200));
 
         assertEquals(m1.getAccount().getBalance(),0);

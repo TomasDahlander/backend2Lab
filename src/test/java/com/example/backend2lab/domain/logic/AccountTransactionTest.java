@@ -18,14 +18,14 @@ class AccountTransactionTest {
 
     @Test
     public void createAccountTest(){
-        Account account = new Account(1L,"Kalle",0);
+        Account account = new Account(1L,"Kalle", "password",0);
         assertEquals(account.getBalance(), 0);
         assertNotEquals(account.getBalance(), 100);
     }
 
     @Test
     public void depositTest(){
-        Account account = new Account(1L,"Kalle",0);
+        Account account = new Account(1L,"Kalle", "password",0);
         account = at.deposit(account,100);
 
         assertEquals(account.getBalance(),100);
@@ -33,7 +33,7 @@ class AccountTransactionTest {
 
     @Test
     public void withdrawTest(){
-        Account account = new Account(1L,"Kalle",100);
+        Account account = new Account(1L,"Kalle", "password",100);
         Message message = at.withdraw(account,50);
 
         assertEquals(message.getAccount().getBalance(),50);
@@ -44,7 +44,7 @@ class AccountTransactionTest {
 
     @Test
     public void withdrawAboveExceededLimitTest(){
-        Account account = new Account(1L,"Kalle",100);
+        Account account = new Account(1L,"Kalle", "password",100);
 
         Message message = at.withdraw(account,200);
 
