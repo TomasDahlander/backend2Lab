@@ -1,5 +1,7 @@
 package com.example.backend2lab;
 
+import com.example.backend2lab.api.model.RiskAssessment;
+import com.example.backend2lab.application.Services;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
 import com.example.backend2lab.security.JWTIssuer;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Duration;
@@ -38,6 +41,11 @@ public class AppConfiguration {
 //    public SignupService signupService(UserRepository userRepository) {
 //        SignupService signupService = new SignupService(userRepository);
 //        return signupService;
+//    }
+
+//    @Bean
+//    public Services services(AccountRepository accountRepository) {
+//        return new Services(accountRepository);
 //    }
 
     @Bean

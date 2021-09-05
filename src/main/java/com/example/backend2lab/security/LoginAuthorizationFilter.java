@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -37,9 +39,9 @@ public class LoginAuthorizationFilter extends UsernamePasswordAuthenticationFilt
         this.objectMapper = objectMapper;
     }
 
-    private Optional<Account> getPrincipal(HttpServletRequest req) {
+    private Optional<User> getPrincipal(HttpServletRequest req) {
         try {
-            return Optional.of(objectMapper.readValue(req.getInputStream().readAllBytes(), Account.class));
+            return Optional.of(objectMapper.readValue(req.getInputStream().readAllBytes(), User.class));
         } catch (IOException e) {
             LOG.info("Unable to fetch user from request");
             return Optional.empty();
@@ -48,24 +50,35 @@ public class LoginAuthorizationFilter extends UsernamePasswordAuthenticationFilt
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        //return super.attemptAuthentication(request, response);
-//        String username = request.getParameter("username");
-//        String password = request.getParameter("password");
-//        log.info("Username is: {}", username);
-//        log.info("Password is: {}", password);
-//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-//        return authenticationManager.authenticate(token);
         return getPrincipal(request).map(user -> authenticationManager.authenticate(new PreAuthenticatedAuthenticationToken(
                 user.getUsername(),
-                user.getPassword()
+                user.getPassword(),
+                new ArrayList<>()
         ))).orElse(null);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
-//        super.successfulAuthentication(request, response, chain, authResult);
-//        User user = (User)auth.getPrincipal();
-        Account account = (Account)auth.getPrincipal();
-        response.getWriter().write(jwtIssuer.generateToken(account));
+        User user = (User)auth.getPrincipal();
+        response.getWriter().write(jwtIssuer.generateToken(user));
+    }
+
+    // Reads the JWT from the Authorization header, and then uses JWT to validate the token
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token != null) {
+            // parse the token.
+            User user = jwtIssuer.validate(token.substring(7));
+
+            if (user != null) {
+                // new arraylist means authorities
+                return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            }
+
+            return null;
+        }
+
+        return null;
     }
 }

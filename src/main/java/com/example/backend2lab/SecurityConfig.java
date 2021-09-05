@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -29,14 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    private final UserDetailsService userDetailsService;
 //    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final AccountRepository userRepo;
-    private final PasswordEncoder passwordEncoder;
     private final JWTIssuer jwtIssuer;
 
     @Autowired
-    public SecurityConfig(AccountRepository userRepo, PasswordEncoder passwordEncoder, JWTIssuer jwtIssuer) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
+    public SecurityConfig(JWTIssuer jwtIssuer) {
         this.jwtIssuer = jwtIssuer;
     }
 
@@ -45,36 +42,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 //    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userRepo::findByUsername)
-                .passwordEncoder(passwordEncoder);
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userRepo::findByUsername)
+//                .passwordEncoder(passwordEncoder);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         final LoginAuthorizationFilter filter = new LoginAuthorizationFilter(authenticationManager(), jwtIssuer, new ObjectMapper());
-//        final JWTAuthorizationFilter jwtAuthorizationFilter = new JWTAuthorizationFilter(authenticationManager(), jwtIssuer);
-//        http
-//                .csrf().disable()
-//                .cors()
-//                .disable()
-//                .authorizeRequests()
-//                //.antMatchers("/login/*").permitAll()
+
+        http
+                .csrf()
+                .disable()
+                .cors()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/partial/*").permitAll()
+                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/account/*").hasRole("CUSTOMER")
+                .anyRequest().authenticated().and()
+                .addFilter(filter)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        final LoginAuthorizationFilter filter = new LoginAuthorizationFilter(authenticationManager(), jwtIssuer, new ObjectMapper());
+////        final JWTAuthorizationFilter jwtAuthorizationFilter = new JWTAuthorizationFilter(authenticationManager(), jwtIssuer);
+////        http
+////                .csrf().disable()
+////                .cors()
+////                .disable()
+////                .authorizeRequests()
+////                //.antMatchers("/login/*").permitAll()
+////
+////                .anyRequest().authenticated().and()
+////                .addFilter(filter)
+////                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //
-//                .anyRequest().authenticated().and()
-//                .addFilter(filter)
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.csrf().disable();
+//        http.sessionManagement().sessionCreationPolicy(STATELESS);
+//        http.authorizeRequests().anyRequest().permitAll();
+//        http.addFilter(filter);
+//    }
 
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(filter);
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 }

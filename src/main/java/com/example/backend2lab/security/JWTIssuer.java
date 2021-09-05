@@ -29,11 +29,11 @@ public class JWTIssuer {
         this.validity = validity;
     }
 
-    public String generateToken(final Account account) {
-        final String authorities = account.getAuthorities().stream()
+    public String generateToken(final User user) {
+        final String authorities = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
         return Jwts.builder()
-                .setSubject(account.getUsername())
+                .setSubject(user.getUsername())
                 .claim("authorities", authorities)
                 .signWith(key)
                 .setIssuedAt(Date.from(Instant.now()))
@@ -41,11 +41,11 @@ public class JWTIssuer {
                 .compact();
     }
 
-//    public Account validate(String token) {
-//        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-//
-//        String authorities = (String) claims.get("authorities");
-//        List<String> roles = Arrays.stream(authorities.split(",")).map(r -> r.substring(5)).collect(Collectors.toList());
-//        return new Account(claims.getSubject(), null, roles);
-//    }
+    public User validate(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+
+        String authorities = (String) claims.get("authorities");
+        List<Role> roles = Arrays.stream(authorities.split(",")).map(r -> r.substring(5)).map(Role::valueOf).collect(Collectors.toList());
+        return new User(claims.getSubject(), roles);
+    }
 }
