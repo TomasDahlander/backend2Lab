@@ -5,9 +5,6 @@ import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import org.apache.http.HttpStatus;
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.testcontainers.shaded.com.github.dockerjava.core.MediaType.APPLICATION_JSON;
 
 
 /**
@@ -29,17 +25,18 @@ class ServicesTest {
     AccountRepository accountRepository = mock(AccountRepository.class);
     Services service = new Services(accountRepository);
 
-    private WireMockServer wireMockServer;
-
-    @BeforeEach
-    public void before(){
-        wireMockServer.start();
-    }
-
-    @AfterEach
-    public void after(){
-        wireMockServer.stop();
-    }
+//    private WireMockServer wireMockServer;
+//
+//    @BeforeEach
+//    public void before(){
+//        this.wireMockServer =  new WireMockServer();
+//        wireMockServer.start();
+//    }
+//
+//    @AfterEach
+//    public void after(){
+//        wireMockServer.stop();
+//    }
 
     @Test
     void loginTest() {
