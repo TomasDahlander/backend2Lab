@@ -60,6 +60,7 @@ public class Services {
     @Transactional
     public Message deposit(AccountDTO dto) {
         Account account = repository.findByUsername(dto.getName());
+        if(account == null) return new Message("Didnt find account", false);
         account = accountTransaction.deposit(account,dto.getSum());
         account = repository.save(account);
         return new Message("OK",true,account);
@@ -68,6 +69,7 @@ public class Services {
     @Transactional
     public Message withdraw(AccountDTO dto) {
         Account account = repository.findByUsername(dto.getName());
+        if(account == null) return new Message("Didnt find account", false);
         Message message = accountTransaction.withdraw(account,dto.getSum());
         if(message.isStatus()) repository.save(message.getAccount());
         return message;
