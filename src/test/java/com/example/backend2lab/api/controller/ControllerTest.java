@@ -2,8 +2,6 @@ package com.example.backend2lab.api.controller;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,33 +41,33 @@ class ControllerTest {
 
     @Test
     public void loginTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/login/Kalle"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/login/Karl"))
                 .andExpect(status().is2xxSuccessful());
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/log/Kalle"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/log/Karl"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     public void openAccountTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/openAccount/Kalle"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/openAccount/Karl"))
                 .andExpect(status().isOk());
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/openAcc/Kalle"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/openAcc/Karl"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void depositTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/deposit/Kalle/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/deposit/Karl/100"))
                 .andExpect(status().is(200));
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/depo/Kalle/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/depo/Karl/100"))
                 .andExpect(status().is(404));
     }
 
     @Test
     public void withdrawTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/withdraw/Kalle/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/withdraw/Karl/100"))
                 .andExpect(status().is(200));
-        mockMvc.perform(MockMvcRequestBuilders.get("/bank/with/Kalle/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bank/with/Karl/100"))
                 .andExpect(status().is(404));
     }
 

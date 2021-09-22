@@ -9,27 +9,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function deposit() {
-    clearError();
-    const amount = document.getElementById("amount");
-    const sum = Number(amount.value);
-
-    fetch(`http://localhost:8080/bank/deposit/${account.username}/${sum}`)
-        .then((response) => response.json())
-        .then(function (data) {
-            if (data.status) {
-                document.getElementById("accountBalance").innerHTML = data.account.balance;
-            } else {
-                document.getElementById("errorMessageBank").innerHTML = data.message;
-            }
-        });
+    sendInformation("deposit");
 }
 
 function withdraw() {
+    sendInformation("withdraw");
+}
+
+function sendInformation(url) {
     clearError();
+
     const amount = document.getElementById("amount");
     const sum = Number(amount.value);
 
-    fetch(`http://localhost:8080/bank/withdraw/${account.username}/${sum}`)
+    fetch(`http://localhost:8080/bank/${url}/${account.username}/${sum}`)
         .then((response) => response.json())
         .then(function (data) {
             console.log(data);

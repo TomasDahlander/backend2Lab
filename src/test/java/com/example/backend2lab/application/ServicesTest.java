@@ -4,6 +4,7 @@ import com.example.backend2lab.api.model.AccountDTO;
 import com.example.backend2lab.api.model.Message;
 import com.example.backend2lab.domain.model.Account;
 import com.example.backend2lab.persistance.AccountRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,10 +43,10 @@ class ServicesTest {
 
     @Test
     void createNewAccountTest() {
-        when(accountRepository.findByUsername("Kalle")).thenReturn(new Account(1L,"Kalle",100));
+        when(accountRepository.findByUsername("Karl")).thenReturn(new Account(1L,"Karl",100));
         when(accountRepository.findByUsername("Andy")).thenReturn(null);
 
-        Message message = service.createNewAccount(new AccountDTO("Kalle",0));
+        Message message = service.createNewAccount(new AccountDTO("Karl",0));
         Message messageNull = service.createNewAccount(new AccountDTO("Andy",0));
 
         assertEquals(message.getMessage(),"Already exists in database");
